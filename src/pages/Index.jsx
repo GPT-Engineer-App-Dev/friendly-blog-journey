@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Text, VStack, Link, HStack, Image, useColorMode } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, Link, HStack, Image, useColorMode, Button } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
@@ -11,6 +11,12 @@ const Index = () => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
     setPosts(storedPosts);
   }, []);
+
+  const handleDelete = (index) => {
+    const updatedPosts = posts.filter((_, i) => i !== index);
+    setPosts(updatedPosts);
+    localStorage.setItem("posts", JSON.stringify(updatedPosts));
+  };
 
   return (
     <Box>
@@ -44,6 +50,7 @@ const Index = () => {
                   <Heading as="h4" size="md">{post.title}</Heading>
                   <Text mt={2}>{post.content}</Text>
                   {post.image && <Image src={post.image} alt={post.title} mt={4} />}
+                  <Button colorScheme="red" mt={4} onClick={() => handleDelete(index)}>Delete</Button>
                 </Box>
               ))}
             </VStack>
