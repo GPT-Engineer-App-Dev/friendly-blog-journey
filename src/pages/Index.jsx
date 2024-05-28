@@ -1,10 +1,11 @@
-import { Box, Container, Flex, Heading, Text, VStack, Link, HStack, Image } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, Link, HStack, Image, useColorMode } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Index = () => {
   const [posts, setPosts] = useState([]);
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
@@ -14,7 +15,7 @@ const Index = () => {
   return (
     <Box>
       {/* Navigation Bar */}
-      <Box as="nav" bg="brand.800" color="white" py={4}>
+      <Box as="nav" bg={colorMode === "light" ? "brand.800" : "gray.700"} color="white" py={4}>
         <Container maxW="container.lg">
           <Flex justify="space-between" align="center">
             <Heading as="h1" size="lg">My Blog</Heading>
@@ -39,7 +40,7 @@ const Index = () => {
             <Heading as="h3" size="lg">Latest Posts</Heading>
             <VStack spacing={4} mt={4}>
               {posts.map((post, index) => (
-                <Box key={index} p={4} shadow="md" borderWidth="1px">
+                <Box key={index} p={4} shadow="md" borderWidth="1px" bg={colorMode === "light" ? "white" : "gray.700"}>
                   <Heading as="h4" size="md">{post.title}</Heading>
                   <Text mt={2}>{post.content}</Text>
                   {post.image && <Image src={post.image} alt={post.title} mt={4} />}
@@ -51,7 +52,7 @@ const Index = () => {
       </Container>
 
       {/* Footer */}
-      <Box as="footer" bg="brand.800" color="white" py={4} mt={8}>
+      <Box as="footer" bg={colorMode === "light" ? "brand.800" : "gray.700"} color="white" py={4} mt={8}>
         <Container maxW="container.lg">
           <Flex justify="space-between" align="center">
             <Text>&copy; {new Date().getFullYear()} My Blog. All rights reserved.</Text>
