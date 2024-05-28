@@ -1,7 +1,16 @@
-import { Box, Container, Flex, Heading, Text, VStack, Link, HStack } from "@chakra-ui/react";
+import { Box, Container, Flex, Heading, Text, VStack, Link, HStack, Image } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa";
 
 const Index = () => {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const storedPosts = JSON.parse(localStorage.getItem("posts")) || [];
+    setPosts(storedPosts);
+  }, []);
+
   return (
     <Box>
       {/* Navigation Bar */}
@@ -10,7 +19,8 @@ const Index = () => {
           <Flex justify="space-between" align="center">
             <Heading as="h1" size="lg">My Blog</Heading>
             <HStack spacing={4}>
-              <Link href="#home" color="white">Home</Link>
+              <Link as={RouterLink} to="/" color="white">Home</Link>
+              <Link as={RouterLink} to="/add-post" color="white">Add Post</Link>
               <Link href="#about" color="white">About</Link>
               <Link href="#contact" color="white">Contact</Link>
             </HStack>
@@ -28,14 +38,13 @@ const Index = () => {
           <Box>
             <Heading as="h3" size="lg">Latest Posts</Heading>
             <VStack spacing={4} mt={4}>
-              <Box p={4} shadow="md" borderWidth="1px">
-                <Heading as="h4" size="md">Post Title 1</Heading>
-                <Text mt={2}>A brief description of the blog post...</Text>
-              </Box>
-              <Box p={4} shadow="md" borderWidth="1px">
-                <Heading as="h4" size="md">Post Title 2</Heading>
-                <Text mt={2}>A brief description of the blog post...</Text>
-              </Box>
+              {posts.map((post, index) => (
+                <Box key={index} p={4} shadow="md" borderWidth="1px">
+                  <Heading as="h4" size="md">{post.title}</Heading>
+                  <Text mt={2}>{post.content}</Text>
+                  {post.image && <Image src={post.image} alt={post.title} mt={4} />}
+                </Box>
+              ))}
             </VStack>
           </Box>
         </VStack>
