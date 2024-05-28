@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Textarea, VStack } from "@chakra-ui/react";
+import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Textarea, VStack, useColorMode } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const AddPost = () => {
@@ -7,6 +7,7 @@ const AddPost = () => {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
+  const { colorMode } = useColorMode();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,15 +24,15 @@ const AddPost = () => {
         <form onSubmit={handleSubmit}>
           <FormControl id="title" isRequired>
             <FormLabel>Title</FormLabel>
-            <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <Input type="text" value={title} onChange={(e) => setTitle(e.target.value)} bg={colorMode === "light" ? "white" : "gray.700"} />
           </FormControl>
           <FormControl id="content" isRequired mt={4}>
             <FormLabel>Content</FormLabel>
-            <Textarea value={content} onChange={(e) => setContent(e.target.value)} />
+            <Textarea value={content} onChange={(e) => setContent(e.target.value)} bg={colorMode === "light" ? "white" : "gray.700"} />
           </FormControl>
           <FormControl id="image" mt={4}>
             <FormLabel>Image</FormLabel>
-            <Input type="file" accept="image/*" onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))} />
+            <Input type="file" accept="image/*" onChange={(e) => setImage(URL.createObjectURL(e.target.files[0]))} bg={colorMode === "light" ? "white" : "gray.700"} />
           </FormControl>
           <Button type="submit" colorScheme="blue" mt={4}>Add Post</Button>
         </form>
